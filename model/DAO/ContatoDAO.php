@@ -10,8 +10,6 @@
         Nome do desenvolvedor:
 */
 
-
-
 class ContatoDAO{
 
     private $conexaoMysql;
@@ -20,6 +18,7 @@ class ContatoDAO{
     public function __construct(){
 
         require_once('ConexaoMysql.php');
+        require_once('model/Contato.php');
 
         // Instancia da classe de conexao com o BD
         $this->conexaoMysql = new ConexaoMysql();
@@ -62,7 +61,30 @@ class ContatoDAO{
 
     // Seleciona todos os contatos
     public function selectAllContato(){
+
+        $sql = "select * from tblcontatos;";
+
+        $select = $this->conexao->query($sql);
+
+        $cont = (int) 0;
+
+
+        while($rsSelect = $select->fetch(PDO::FETCH_ASSOC)){
+
+            // Intancia da classe Contato, criandouma conleçao de objetos
+            $listContato[] = new Contato();
+
+            $listContato[$cont]->setCodigo($rsSelect['codigo']);
+            $listContato[$cont]->setNome($rsSelect['nome']);
+            $listContato[$cont]->setTelefone($rsSelect['telefone']);
+            $listContato[$cont]->setCelular($rsSelect['celular']);
+            $listContato[$cont]->setEmail($rsSelect['email']);
+
+            $cont ++;
+        }
         
+        return $listContato;
+
     }
 
     // Seleciona um contato pelo ID

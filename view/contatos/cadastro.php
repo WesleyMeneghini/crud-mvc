@@ -49,7 +49,12 @@
                 <td>Opções</td>
               </tr>
                 
-            
+              <?php
+                require_once('controller/ContatoController.php');
+                $contatoController = new ContatoController();
+                $listaDados = $contatoController->listarContatos();
+                var_dump($listaDados);
+              ?> 
            
               <tr class="tblconsulta_dados">
                 <td></td>

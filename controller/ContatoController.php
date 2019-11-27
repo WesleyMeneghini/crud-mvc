@@ -44,7 +44,12 @@ class ContatoController{
 
     }
 
-    public function listarContato(){
+    public function listarContatos(){
+
+        $contatoController = new ContatoDAO();
+        $listaDeContatos = $contatoController->selectAllContato();
+
+        return $listaDeContatos;
 
     }
 
