@@ -9,7 +9,7 @@ $modo = $_GET['modo'];
 // Valida qual a controller será instanciada
 switch (strtoupper($controller)){
 
-    case 'CCONTATOS':
+    case 'CONTATOS':
 
         require_once('controller/ContatoController.php');
 

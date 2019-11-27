@@ -24,14 +24,14 @@ class ConexaoMysql{
         $this->server="localhost";
         $this->user="root";
         $this->password="bcd127";
-        $this->database="db_delicia_gelada_wesley";
+        $this->database="dbcontatos20192tb";
     }
 
     // Método para abrir a conexão com o banco de dados
     public function conectDatabase(){
 
         try{
-            $conexao = new PDO('mysql:host='.$this->server.'; dbname='.$this->database., $this->user, $this->password);
+            $conexao = new PDO('mysql:host='.$this->server.'; dbname='.$this->database, $this->user, $this->password);
             return $conexao;
 
         }catch(PDOException $erro){
