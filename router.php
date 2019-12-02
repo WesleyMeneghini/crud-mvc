@@ -25,6 +25,15 @@ switch (strtoupper($controller)){
             case 'ATUALIZAR':
             break;
             case 'EXCLUIR':
+
+                // resgata o id
+                $id = $_GET['id'];
+
+                // instacia a classe controller
+                $contatoController = new ContatoController();
+
+                // metodo para excluir o registro
+                $contatoController->excluirContato($id);
             break;
         }
     break;

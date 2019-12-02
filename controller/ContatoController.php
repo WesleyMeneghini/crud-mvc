@@ -32,7 +32,11 @@ class ContatoController{
 
         $contatoDao = new ContatoDAO();
 
-        $contatoDao->insertContato($contato);
+        if($contatoDao->insertContato($contato)){
+            header('location: index.php');
+        }else{
+            echo "Não foi possivel inserir o registro";
+        }
 
     }
 
@@ -40,7 +44,17 @@ class ContatoController{
 
     }
 
-    public function excluirContato(){
+    public function excluirContato($idContato){
+
+        // instancia da classe DAO do contato
+        $contatoDAO = new ContatoDAO();
+
+        // metodo para excluir no BD o registro
+        if($contatoDAO->deleteContato($idContato)){
+            header('location: index.php');
+        }else{
+            echo "Não foi possivel excluir o registro";
+        }
 
     }
 

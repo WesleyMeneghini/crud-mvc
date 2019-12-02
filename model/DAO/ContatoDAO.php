@@ -43,9 +43,9 @@ class ContatoDAO{
         
 
         if($statement->execute($statementDados)){
-            echo("Registro inserido com sucesso!");
+            return true;
         }else{
-            echo("Erro ao executar o script no BD!");
+            return false;
         }
     }
 
@@ -55,8 +55,15 @@ class ContatoDAO{
     }
 
     // Exclui um contato
-    public function deleteContato(){
-        
+    public function deleteContato($idContato){
+
+        $sql = "delete from tblcontatos where codigo=".$idContato.";";
+
+        if($this->conexao->query($sql)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     // Seleciona todos os contatos
