@@ -1,27 +1,51 @@
+<?php
+  // var_dump($dadosContato);
+
+  $botao = (string) "salvar";
+  $action = (string) "router.php?controller=contatos&modo=novo";
+
+  if(isset($_GET['modo'])){
+
+    if(strtoupper($_GET['modo']) == 'BUSCAR'){
+
+      $codigo = $dadosContato->getCodigo();
+      $nome = $dadosContato->getNome();
+      $telefone = $dadosContato->getTelefone();
+      $celular = $dadosContato->getCelular();
+      $email = $dadosContato->getEmail();
+
+      $botao = "editar";
+      $action = "router.php?controller=contatos&modo=editar&id=".$codigo;
+    }
+  }
+  // echo $nome;
+?>
+
+
 <div id="cadastro">
-  <form name="frmcontatos" method="post" action="router.php?controller=contatos&modo=novo">
+  <form name="frmcontatos" method="post" action="<?=$action?>">
     <table id="tblcadastro">
       <tr>
         <td colspan="2" class="titulo_tabela">Cadastro de Contatos</td>
       </tr>
       <tr>
         <td class="tblcadastro_td">Nome:</td>
-        <td><input placeholder="Digite seu nome"  name="txtnome" type="text" value="" onkeypress="return validarEntrada(event,'numeric');" required   /></td>
+        <td><input placeholder="Digite seu nome"  name="txtnome" type="text" value="<?=@$nome?>" onkeypress="return validarEntrada(event,'numeric');" required   /></td>
       </tr>
       <tr>
         <td class="tblcadastro_td">Telefone:</td>
-        <td><input id="telefone" placeholder="Ex:999 9999-9999"   name="txttelefone" type="text" value="" onkeypress="return mascaraFone(this, event);" required  /></td>
+        <td><input id="telefone" placeholder="Ex:999 9999-9999"   name="txttelefone" type="text" value="<?=@$telefone?>" onkeypress="return mascaraFone(this, event);" required  /></td>
       </tr>
       <tr>
         <td class="tblcadastro_td">Celular:</td>
-        <td><input id="celular" name="txtcelular" type="text" value="" required /></td>
+        <td><input id="celular" name="txtcelular" type="text" value="<?=@$celular?>" required /></td>
       </tr>
       <tr>
         <td class="tblcadastro_td">Email:</td>
-        <td><input name="txtemail" type="email" value="" required  /></td>
+        <td><input name="txtemail" type="email" value="<?=@$email?>" required  /></td>
       </tr>
       <tr>
-        <td><input name="btnsalvar" type="submit" value="SALVAR" /></td>
+        <td><input name="btnsalvar" type="submit" value="<?=$botao?>" /></td>
         <td></td>
       </tr>
     </table>
@@ -60,7 +84,9 @@
       <td><?=$listaDados[$cont]->getEmail()?></td>
 
       <td>
-        <img src="view/icones/Modify16.png">
+        <a href="router.php?controller=contatos&modo=buscar&id=<?=$listaDados[$cont]->getCodigo()?>">
+          <img src="view/icones/Modify16.png">
+        </a>
         | 
         <a href="router.php?controller=contatos&modo=excluir&id=<?=$listaDados[$cont]->getCodigo()?>">
           <img src="view/icones/Delete16.png">

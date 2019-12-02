@@ -12,27 +12,31 @@
 
 class ContatoController{
 
+    private $contato;
+
     public function __construct(){
 
         require_once('model/Contato.php');
         require_once('model/DAO/ContatoDAO.php');
 
+        // valida se  a requisiçao que esta chegando no method no form e post
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            // Instancia da classe Contato
+            $this->contato = new Contato();
+
+            // Guarda nos atributos da classe o post do FORMULARIO
+            $this->contato->setNome($_POST['txtnome']);
+            $this->contato->setTelefone($_POST['txttelefone']);
+            $this->contato->setCelular($_POST['txtcelular']);
+            $this->contato->setEmail($_POST['txtemail']);
+        }
     }
 
     public function novoContato(){
 
-        // Instancia da classe Contato
-        $contato = new Contato();
-
-        // Guarda nos atributos da classe o post do FORMULARIO
-        $contato->setNome($_POST['txtnome']);
-        $contato->setTelefone($_POST['txttelefone']);
-        $contato->setCelular($_POST['txtcelular']);
-        $contato->setEmail($_POST['txtemail']);
-
         $contatoDao = new ContatoDAO();
 
-        if($contatoDao->insertContato($contato)){
+        if($contatoDao->insertContato($this->contato)){
             header('location: index.php');
         }else{
             echo "Não foi possivel inserir o registro";
@@ -40,7 +44,19 @@ class ContatoController{
 
     }
 
-    public function atualizarContato(){
+    public function atualizarContato($idContato){
+        
+        $this->contato->setCodigo($idContato);
+
+        $contatoDAO = new ContatoDAO();
+
+        if($contatoDAO->updateContato($this->contato)){
+            header('location: index.php');
+            
+        }else{
+            echo "Não foi possivel atulizar o registro";
+        }
+
 
     }
 
@@ -60,14 +76,21 @@ class ContatoController{
 
     public function listarContatos(){
 
-        $contatoController = new ContatoDAO();
-        $listaDeContatos = $contatoController->selectAllContato();
+        $contatoDAO = new ContatoDAO();
+        $listaDeContatos = $contatoDAO->selectAllContato();
 
         return $listaDeContatos;
 
     }
 
-    public function buscarContato(){
+    public function buscarContato($idContato){
+
+        // instancia da classe DAO do contato
+        $contatoDAO = new ContatoDAO();
+        // metodo para buscar no banco de dados o registro referente ao ID
+        $dadosContato = $contatoDAO->selectByIdContato($idContato);
+
+        require_once "index.php";
 
     }
 }

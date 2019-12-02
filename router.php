@@ -22,7 +22,12 @@ switch (strtoupper($controller)){
                 // Metodo para inserir um novo contato
                 $contatoController->novoContato();
             break;
-            case 'ATUALIZAR':
+            case 'EDITAR':
+                
+                $id = $_GET['id'];
+                $contatoController = new ContatoController();
+                $contatoController->atualizarContato($id);
+
             break;
             case 'EXCLUIR':
 
@@ -34,6 +39,16 @@ switch (strtoupper($controller)){
 
                 // metodo para excluir o registro
                 $contatoController->excluirContato($id);
+            break;
+            case 'BUSCAR':
+
+                // resgata o id enviado pela view no click editar
+                $id = $_GET['id'];
+                // instacia a classe ContatoController
+                $contatoController = new ContatoController();
+                // metodo para buscar um regitro pelo ID
+                $contatoController->buscarContato($id);
+
             break;
         }
     break;

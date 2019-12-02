@@ -40,7 +40,6 @@ class ContatoDAO{
             $contato->getCelular(),
             $contato->getEmail()
         );
-        
 
         if($statement->execute($statementDados)){
             return true;
@@ -50,7 +49,25 @@ class ContatoDAO{
     }
 
     // Atualiza um contato
-    public function updateContato(){
+    public function updateContato(Contato $contato){
+
+        $sql = "update tblcontatos set nome=?, telefone=?, celular=?, email=? where codigo=?";
+
+        $statement = $this->conexao->prepare($sql);
+
+        $statementDados = array(
+            $contato->getNome(),
+            $contato->getTelefone(),
+            $contato->getCelular(),
+            $contato->getEmail(),
+            $contato->getCodigo()
+        );
+
+        if($statement->execute($statementDados)){
+            return true;
+        }else{
+            return false;
+        }
         
     }
 
@@ -95,8 +112,28 @@ class ContatoDAO{
     }
 
     // Seleciona um contato pelo ID
-    public function selectByIdContato(){
-        
-    }
+    public function selectByIdContato($idContato){
 
+        $sql = "select * from tblcontatos where codigo=".$idContato.";";
+
+        $select = $this->conexao->query($sql);
+
+        if($rsSelect = $select->fetch(PDO::FETCH_ASSOC)){
+
+            // Intancia da classe Contato, criandouma conleçao de objetos
+            $listContato = new Contato();
+
+            $listContato->setCodigo($rsSelect['codigo']);
+            $listContato->setNome($rsSelect['nome']);
+            $listContato->setTelefone($rsSelect['telefone']);
+            $listContato->setCelular($rsSelect['celular']);
+            $listContato->setEmail($rsSelect['email']);
+
+
+        }else{
+            return false;
+        }
+        return $listContato;
+
+    }
 }
